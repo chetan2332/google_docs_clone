@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:docs_clone/constants.dart';
 import 'package:docs_clone/models/document_model.dart';
 import 'package:docs_clone/models/error_model.dart';
@@ -94,17 +95,22 @@ class DocumentRepository {
     required String id,
     required String title,
   }) async {
-    final res = await _client.post(
-      Uri.parse('$host/doc/title'),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        'x-auth-token': token,
-      },
-      body: jsonEncode({
-        'title': title,
-        'id': id,
-      }),
-    );
+    try {
+      await _client.post(
+        Uri.parse('$host/doc/title'),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'x-auth-token': token,
+        },
+        body: jsonEncode({
+          'title': title,
+          'id': id,
+        }),
+      );
+    } catch (e) {
+      log('updateTitle, docrepo');
+      log(e.toString());
+    }
   }
 
   Future<ErrorModel> getDocumentById(String id, String token) async {

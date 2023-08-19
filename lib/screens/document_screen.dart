@@ -47,6 +47,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
 
     Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_controller == null) return;
+      // log(_controller!.document.toDelta().toString());
       socketRepository.autoSave(<String, dynamic>{
         'delta': _controller!.document.toDelta(),
         'room': widget.id,
@@ -74,9 +75,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     }
 
     _controller?.document.changes.listen((event) {
-      if (event.item3 == quill.ChangeSource.LOCAL) {
+      if (event.source == quill.ChangeSource.LOCAL) {
         Map<String, dynamic> map = {
-          'delta': event.item2,
+          'delta': event.change,
           'room': widget.id,
         };
         socketRepository.typing(map);

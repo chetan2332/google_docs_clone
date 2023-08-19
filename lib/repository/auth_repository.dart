@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:docs_clone/constants.dart';
 import 'package:docs_clone/models/error_model.dart';
@@ -69,6 +70,7 @@ class AuthRepository {
         }
       }
     } catch (e) {
+      log(e.toString());
       error = ErrorModel(
         data: null,
         error: e.toString(),
